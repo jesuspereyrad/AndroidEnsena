@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_camera"
+            android:icon="@drawable/ic_deaf"
+            android:title="Modo Sordo" />
+        <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/ic_hearing"
+            android:title="Modo Oyente" />
+        <item
+            android:id="@+id/nav_dynamic"
+            android:icon="@drawable/ic_hearing"
+            android:title="Modo Dinamico" />
+        <item
+            android:id="@+id/nav_slideshow"
+            android:icon="@drawable/ic_test"
+            android:title="Modo de Prueba" />
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Ajustes" />
+    </group>
+
+</menu>

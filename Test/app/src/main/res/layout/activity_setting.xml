@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.jesuspereyra.test.setting.SettingActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar2"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:background="?attr/colorPrimary"
+        android:keepScreenOn="false"
+        android:minHeight="?attr/actionBarSize"
+        android:scrollbarAlwaysDrawHorizontalTrack="false"
+        android:scrollbarAlwaysDrawVerticalTrack="false"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="62dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/ipBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            tools:layout_editor_absoluteX="112dp">
+
+            <TextView
+                android:id="@+id/ipLabel"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="IP address"
+                android:textAppearance="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Small"
+                android:textColor="@android:color/background_dark"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/ipInput"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="10.0.0.10" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/wifiBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ipBox"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/wifiLabel"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="Data"
+                android:textColor="@android:color/background_dark"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/wifiInput"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textImeMultiLine|textPersonName"
+                android:text="Si" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/subtitleBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/wifiBox"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Switch
+                android:id="@+id/subtitleSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="Subtitulos"
+                android:textSize="18sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/soundBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/subtitleBox"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+
+            <Switch
+                android:id="@+id/soundSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="Sonido"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>
