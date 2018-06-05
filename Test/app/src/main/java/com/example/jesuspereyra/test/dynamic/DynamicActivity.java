@@ -39,6 +39,7 @@ import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfInt;
+import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
@@ -80,8 +81,13 @@ public class DynamicActivity extends AppCompatActivity implements CvCameraViewLi
     Rect SQ3;
     Rect SQ4;
     Rect SQ5;
+    Rect SQ6;
+    Rect SQ7;
+    Rect SQ8;
+    Rect SQ9;
+    Rect SQ10;
     String IP_ADDRESS = "10.0.0.6";
-    Integer[][][] result = new Integer[10][2][3];
+    Integer[][][] result = new Integer[10][2][30];
 
     Integer framecounter = 0;
     Integer framecounter2 = 0;
@@ -245,16 +251,27 @@ public class DynamicActivity extends AppCompatActivity implements CvCameraViewLi
         GRAY = Mat.zeros(height, width, CvType.channels(1));
         ROI = Mat.zeros(height, width, CvType.channels(1));
         ROI2 = Mat.zeros(height, width, CvType.channels(1));
-        SQ1 = new Rect(width/2, height/2, new Double(width * 0.03).intValue(),
+        SQ1 = new Rect(width/2, height/3, new Double(width * 0.03).intValue(),
                 new Double(height * 0.03).intValue());
-        SQ2 = new Rect(width/2 + 50, height/2, new Double(width * 0.03).intValue(),
+        SQ2 = new Rect(width/2 + 300, height/3, new Double(width * 0.03).intValue(),
                 new Double(height * 0.03).intValue());
-        SQ3 = new Rect(width/2 - 50, height/2, new Double(width * 0.03).intValue(),
+        SQ3 = new Rect(width/2 - 300, height/3, new Double(width * 0.03).intValue(),
                 new Double(height * 0.03).intValue());
-        SQ4 = new Rect(width/2, height/2 + 50, new Double(width * 0.03).intValue(),
+        SQ4 = new Rect(width/2, height/3 + 200, new Double(width * 0.03).intValue(),
                 new Double(height * 0.03).intValue());
-        SQ5 = new Rect(width/2, height/2 - 50, new Double(width * 0.03).intValue(),
+        SQ5 = new Rect(width/2, height/3 - 200, new Double(width * 0.03).intValue(),
                 new Double(height * 0.03).intValue());
+        SQ6 = new Rect(width/2 , 2 * height/3, new Double(width * 0.03).intValue(),
+                new Double(height * 0.03).intValue());
+        SQ7 = new Rect(width/2 + 300, 2 * height/3, new Double(width * 0.03).intValue(),
+                new Double(height * 0.03).intValue());
+        SQ8 = new Rect(width/2  - 300, 2 * height/3, new Double(width * 0.03).intValue(),
+                new Double(height * 0.03).intValue());
+        SQ9 = new Rect(width/2 , 2 * height/3 + 200, new Double(width * 0.03).intValue(),
+                new Double(height * 0.03).intValue());
+        SQ10 = new Rect(width/2 , 2 * height/3 - 200, new Double(width * 0.03).intValue(),
+                new Double(height * 0.03).intValue());
+
         WB = Mat.zeros(height, width, CvType.channels(1));
         roi = new Rect(width/2 - 200, height/2 - 200, 400, 400);
         chunks = new Rect(0,0, width/10, height/10);
@@ -315,26 +332,23 @@ public class DynamicActivity extends AppCompatActivity implements CvCameraViewLi
         Mat aux = new Mat();
         Mat dest = new Mat();
 
-        // Scalar colorRangeMinTotal = new Scalar(minArray.get(0).get(0), minArray.get(0).get(1), minArray.get(0).get(2));
-        // Scalar colorRangeMaxTotal = new Scalar(maxArray.get(0).get(0), maxArray.get(0).get(1), maxArray.get(0).get(2));
-
         Scalar colorRangeMinTotal = new Scalar(result[0][0][0], result[0][0][1], result[0][0][2]);
         Scalar colorRangeMaxTotal = new Scalar(result[0][1][0], result[0][1][1], result[0][1][2]);
-
 
         Core.inRange(image, colorRangeMinTotal, colorRangeMaxTotal, aux);
         aux.copyTo(bi);
 
         for(int i = 1; i < result.length; i+=1) {
-//            for(int i = 3; i < result[j].length; i+=3){
+            for(int j = 0; j < 15; j+=3){
                 Core.inRange(image,
-                        new Scalar(result[i][0][0], result[i][0][1], result[i][0][2]),
-                        new Scalar(result[i][1][0], result[i][1][1], result[i][1][2]),
+                        new Scalar(result[i][0][j], result[i][0][j+1], result[i][0][j+2]),
+                        new Scalar(result[i][1][j], result[i][1][j+1], result[i][1][j+2]),
                         aux);
 
                 Core.add(bi, aux, bi);
-//            }
+            }
         }
+
 
         return bi;
     }
@@ -356,8 +370,6 @@ public class DynamicActivity extends AppCompatActivity implements CvCameraViewLi
 
 
 //      TODO: Image from rgba to media blur to hsv
-        Imgproc.medianBlur(image,image, 5);
-        Imgproc.cvtColor(image, image, Imgproc.COLOR_RGB2HSV);
 
         ArrayList<Rect> rects = new ArrayList<Rect>();
         rects.add(SQ1);
@@ -365,12 +377,17 @@ public class DynamicActivity extends AppCompatActivity implements CvCameraViewLi
         rects.add(SQ3);
         rects.add(SQ4);
         rects.add(SQ5);
+        rects.add(SQ6);
+        rects.add(SQ7);
+        rects.add(SQ8);
+        rects.add(SQ9);
+        rects.add(SQ10);
 
 
 //        TODO: For loop for looking the media and standard deviation x = 15;
-        Integer[] colorRangeMaxList = new Integer[3];
-        Integer[] colorRangeMinList = new Integer[3];
-        for (int x = 0; x < 5; x++) {
+        Integer[] colorRangeMaxList = new Integer[30];
+        Integer[] colorRangeMinList = new Integer[30];
+        for (int x = 0; x < rects.size(); x++) {
 
             Mat roi = image.submat(rects.get(x));
             Core.split(roi,buffer);
@@ -379,39 +396,22 @@ public class DynamicActivity extends AppCompatActivity implements CvCameraViewLi
             meanColor[0] = Mean(buffer.get(0));
             meanColor[1] = Mean(buffer.get(1));
             meanColor[2] = Mean(buffer.get(2));
-//                ArrayList<Double> meanColor = new ArrayList<Double>();
-//                meanColor.add(Mean(buffer.get(0)));
-//                meanColor.add(Mean(buffer.get(1)));
-//                meanColor.add(Mean(buffer.get(2)));
 
-//                ArrayList<Double> deviation = new ArrayList<Double>();
             Double[] deviation = new Double[3];
             deviation[0] = StandarDeviation(buffer.get(0), meanColor[0]);
             deviation[1] = StandarDeviation(buffer.get(1), meanColor[1]);
             deviation[2] = StandarDeviation(buffer.get(2), meanColor[2]);
-//                deviation.add(StandarDeviation(buffer.get(0)));
-//                deviation.add(StandarDeviation(buffer.get(1)));
-//                deviation.add(StandarDeviation(buffer.get(2)));
-
-//                ArrayList<Integer> colorRangeMaxList = new ArrayList<Integer>();
-//                colorRangeMaxList.add(SubDoubleToInt(meanColor.get(0), deviation.get(0)));
-//                colorRangeMaxList.add(SubDoubleToInt(meanColor.get(1), deviation.get(1)));
-//                colorRangeMaxList.add(SubDoubleToInt(meanColor.get(2), deviation.get(2)));
 
 
-            colorRangeMaxList[0] = SumDoubleToInt(meanColor[0], deviation[0]);
-            colorRangeMaxList[1] = SumDoubleToInt(meanColor[1], deviation[1]);
-            colorRangeMaxList[2] = SumDoubleToInt(meanColor[2], deviation[2]);
+            colorRangeMaxList[x * 3] = SumDoubleToInt(meanColor[0], deviation[0]);
+            colorRangeMaxList[(x * 3) + 1] = SumDoubleToInt(meanColor[1], deviation[1]);
+            colorRangeMaxList[(x * 3) + 2] = SumDoubleToInt(meanColor[2], deviation[2]);
 
 
-            colorRangeMinList[0] = SubDoubleToInt(meanColor[0], deviation[0]);
-            colorRangeMinList[1] = SubDoubleToInt(meanColor[1], deviation[1]);
-            colorRangeMinList[2] = SubDoubleToInt(meanColor[2], deviation[2]);
+            colorRangeMinList[x * 3] = SubDoubleToInt(meanColor[0], deviation[0]);
+            colorRangeMinList[(x * 3) + 1] = SubDoubleToInt(meanColor[1], deviation[1]);
+            colorRangeMinList[(x * 3) + 2] = SubDoubleToInt(meanColor[2], deviation[2]);
 
-//                ArrayList<Integer> colorRangeMinList = new ArrayList<Integer>();
-//                colorRangeMinList.add(SumDoubleToInt(meanColor.get(0), deviation.get(0)));
-//                colorRangeMinList.add(SumDoubleToInt(meanColor.get(1), deviation.get(1)));
-//                colorRangeMinList.add(SumDoubleToInt(meanColor.get(2), deviation.get(2)));
 
             //  TODO: save the colorRangeMin and colorRangeMax in an array
 
@@ -424,7 +424,7 @@ public class DynamicActivity extends AppCompatActivity implements CvCameraViewLi
 //        Core.inRange(image, colorRangeMinTotal, colorRangeMaxTotal, image);
 
 //        TODO: return the mask
-        Integer[][] test = new Integer[2][3];
+        Integer[][] test = new Integer[2][3 * rects.size()];
         test[0] = colorRangeMinList;
         test[1] = colorRangeMaxList;
         return test;
@@ -434,25 +434,31 @@ public class DynamicActivity extends AppCompatActivity implements CvCameraViewLi
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
 
         mRgba = (inputFrame.rgba());
+
         Imgproc.cvtColor(mRgba, mRgba, Imgproc.COLOR_RGBA2RGB);
+        Imgproc.medianBlur(mRgba,mRgba, 5);
+        Imgproc.cvtColor(mRgba, mRgba, Imgproc.COLOR_RGB2HSV);
 
-//        Every 10 frames enter to the condition and save the image in the android device
 
-//        ArrayList<ArrayList<ArrayList<Integer>>> test = new ArrayList<ArrayList<ArrayList<Integer>>>();
-
-//        return SumColors(image, colorRangeMin, colorRangeMax);
-
-        if ((server == null || server.isCancelled()) && (framecounter > 100 )) {
-            if(framecounter2 < 10){
-                result[framecounter2] = tracking(mRgba);
-                framecounter2++;
-            }
-            else{
-                Log.i("else","sum colors");
-                 return SumColors(mRgba, result);
-            }
-//
+        if(framecounter2 < 10){
+            result[framecounter2] = tracking(mRgba);
+            framecounter2++;
         }
+        else{
+            return SumColors(mRgba, result);
+        }
+
+//
+        Imgproc.rectangle(mRgba, new Point(SQ1.x, SQ1.y), new Point(SQ1.width + SQ1.x,SQ1.height + SQ1.y), new Scalar(0,100,0));
+        Imgproc.rectangle(mRgba, new Point(SQ2.x, SQ2.y), new Point(SQ2.width + SQ2.x,SQ2.height + SQ2.y), new Scalar(0,100,0));
+        Imgproc.rectangle(mRgba, new Point(SQ3.x, SQ3.y), new Point(SQ3.width + SQ3.x,SQ3.height + SQ3.y), new Scalar(0,100,0));
+        Imgproc.rectangle(mRgba, new Point(SQ4.x, SQ4.y), new Point(SQ4.width + SQ4.x,SQ4.height + SQ4.y), new Scalar(0,100,0));
+        Imgproc.rectangle(mRgba, new Point(SQ5.x, SQ5.y), new Point(SQ5.width + SQ5.x,SQ5.height + SQ5.y), new Scalar(0,100,0));
+        Imgproc.rectangle(mRgba, new Point(SQ6.x, SQ6.y), new Point(SQ6.width + SQ6.x,SQ6.height + SQ6.y), new Scalar(0,100,0));
+        Imgproc.rectangle(mRgba, new Point(SQ7.x, SQ7.y), new Point(SQ7.width + SQ7.x,SQ7.height + SQ7.y), new Scalar(0,100,0));
+        Imgproc.rectangle(mRgba, new Point(SQ8.x, SQ8.y), new Point(SQ8.width + SQ8.x,SQ8.height + SQ8.y), new Scalar(0,100,0));
+        Imgproc.rectangle(mRgba, new Point(SQ9.x, SQ9.y), new Point(SQ9.width + SQ9.x,SQ9.height + SQ9.y), new Scalar(0,100,0));
+        Imgproc.rectangle(mRgba, new Point(SQ10.x, SQ10.y), new Point(SQ10.width + SQ10.x,SQ10.height + SQ10.y), new Scalar(0,100,0));
         framecounter++;
         return mRgba; // This function must return
     }
